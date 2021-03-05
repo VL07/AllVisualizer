@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Visualizer</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='page.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+</head>
+<body>
+    <div class="viewer">
+        <canvas id="canvaschart" width="100%" height="100%"></canvas>
+    </div>
+    <div class="sidebar">
+        <div class="settings">
+            <h1>Settings</h1>
+        </div>
+        <div class="funfacts">
+            <h1>Funfacts</h1>
+        </div>
+        <div class="info">
+            <h1>Info</h1>
+        </div>
+    </div>
+
+    <script>
+
+        const chartCanvas = document.getElementById("canvaschart").getContext("2d");
+
+        if ("{{ visualizer }}" == "bar") {
+            /*
+            BAR
+            */
+
+            var chart = new Chart(chartCanvas, {
+                type: "bar",
+                data: {
+                    labels: [
+                        "test",
+                        "test2"
+                    ],
+                    datasets: [{
+                        label: "testfttftyf",
+                        data: [1, 100],
+                        fill: false,
+                        borderColor: "#fff"
+
+                    }]
+                },
+                options: {
+                    
+                }
+            });
+
+        }
+
+    </script>
+
+    <style>
+
+        body {
+            display: flex;
+            flex-direction: row;
+        }
+        
+        .viewer {
+            width: 65%;
+            overflow: hidden;
+        }
+
+        .sidebar {
+            width: calc(35% - 5px);
+            border-left: 4px solid black;
+            overflow: hidden;
+            
+        }
+
+        .settings {
+
+        }
+
+    </style>
+
+</body>
+</html>

@@ -2,7 +2,7 @@ from flask import Flask, redirect, render_template, url_for
 
 app = Flask(__name__)
 
-visualizers = {"text": "Text", "graf": "Graf"}
+visualizers = {"text": "Text", "graf": "Graf", "bar": "Bar"}
 
 @app.route("/")
 def index():
@@ -11,7 +11,10 @@ def index():
 @app.route("/visualizer/<thing>")
 def visualizer(thing):
     if thing in visualizers.keys():
-        return render_template("visualizer.html", visualizer=thing)
+        if thing == "bar":
+            return render_template("visualizer_bar.html", visualizer=thing)
+        else:
+            return render_template("visualizernotfound.html", visualizer=thing, valid=list(visualizers.values()), links=list(visualizers.keys()), len=len(visualizers))
     else:
         return render_template("visualizernotfound.html", visualizer=thing, valid=list(visualizers.values()), links=list(visualizers.keys()), len=len(visualizers))
 
@@ -20,5 +23,5 @@ def vislist():
     return render_template("visualizernotfound.html", visualizer="", valid=list(visualizers.values()), links=list(visualizers.keys()), len=len(visualizers))
 
 if __name__ == "__main__":
-    app.run()
+    app.run(host="127.0.0.1", port="5001")
 
