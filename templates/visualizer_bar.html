@@ -10,7 +10,7 @@
 </head>
 <body>
     <div class="viewer">
-        <canvas id="canvaschart" width="100%" height="100%"></canvas>
+        <canvas id="canvaschart"></canvas>
     </div>
     <div class="sidebar">
         <div class="settings" id="settings">
@@ -36,10 +36,22 @@
     <script>
 
         const chartCanvas = document.getElementById("canvaschart").getContext("2d");
+        const labels = document.getElementsByClassName("label");
+        const values = document.getElementsByClassName("value");
+        var labelValues = [];
+        var valueValues = [];
 
-        update()
+        update();
 
         function update() {
+
+           
+            labelValues = [];
+            valueValues = [];
+            for (i = 0; i < labels.length; i++) {
+                labelValues.push(labels[i].value);
+                valueValues.push(values[i].value);
+            }
 
             if ("{{ visualizer }}" == "bar") {
                 /*
@@ -49,20 +61,17 @@
                 var chart = new Chart(chartCanvas, {
                     type: "bar",
                     data: {
-                        labels: [
-                            "test",
-                            "test2"
-                        ],
+                        labels: labelValues,
                         datasets: [{
                             label: document.getElementById("title").value,
-                            data: [1, 100],
+                            data: valueValues,
                             fill: true,
-                            borderColor: "#fff"
+                            borderColor: "#000"
 
                         }]
                     },
                     options: {
-                        
+                        responsive: false
                     }
                 });
 
@@ -73,8 +82,30 @@
         function addMoreData() {
             const settings = document.getElementById("settings");
             const dataDiv = document.querySelector("#settings > div.data");
+            
+            labelValues = [];
+            valueValues = []
+            for (i = 0; i < labels.length; i++) {
+                labelValues.push(labels[i].value);
+                valueValues.push(values[i].value);
+            }
 
-            console.log(dataDiv)
+            dataDiv.removeChild(dataDiv.lastChild);
+            dataDiv.removeChild(dataDiv.lastChild);
+
+            dataDiv.innerHTML += '<input type="text" class="label" placeholder="Label" onchange="update()"><input type="number" class="value" placeholder="Value" onchange="update()"><br><button onclick="addMoreData()">Add more data</button>';
+
+            ri = 0
+            for (i = 0; i < labelValues.length; i++) {
+                if (labelValues.length < i) {
+                    break;
+                } else {
+                    labels[i].value = labelValues[i];
+                    values[i].value = valueValues[i];
+                }
+                ri++;
+            }
+
         }
 
     </script>
@@ -100,6 +131,10 @@
 
         .settings {
 
+        }
+
+        #canvaschart {
+            width: 100%;
         }
 
     </style>
