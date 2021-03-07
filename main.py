@@ -1,4 +1,4 @@
-from flask import Flask, redirect, render_template, url_for
+from flask import Flask, redirect, render_template, url_for, request
 
 app = Flask(__name__)
 
@@ -31,15 +31,23 @@ def help():
 
 @app.route("/embed")
 @app.route("/embed/")
-def embed():
-    return "<h1>Under construction</h1>"
+@app.route("/embed/<data>")
+@app.route("/embed/<data>/")
+def embed(data=""):
+    if not data:
+        data = request.args.get("data")
+    
+    if not data:
+        return render_template("embed/embed_error.html")
+
+    return render_template("embed/embed.html", data=json.parse(data))
 
 @app.route("/github")
 @app.route("/github/")
 @app.route("/source")
 @app.route("/source/")
 def source():
-    
+    return redirect("https://github.com/VL07/All_Visualizer")
 
 if __name__ == "__main__":
     app.run(host="127.0.0.1", port="5001")
