@@ -11,6 +11,13 @@
 <body>
     <div class="viewer">
         <canvas id="canvaschart"></canvas>
+
+        <button class="showembed" id="showembed">
+            x
+        </button>
+        <div class="embed" id="embed">
+            <p></p>
+        </div>
     </div>
     <div class="sidebar">
         <div class="settings" id="settings">
@@ -38,8 +45,10 @@
         const chartCanvas = document.getElementById("canvaschart").getContext("2d");
         const labels = document.getElementsByClassName("label");
         const values = document.getElementsByClassName("value");
+        const embedView = document.getElementById("embed");
         var labelValues = [];
         var valueValues = [];
+        var chartsData = {};
 
         update();
 
@@ -57,8 +66,10 @@
                 /*
                 BAR
                 */
+
                 
-                var chart = new Chart(chartCanvas, {
+                
+                chartsData = {
                     type: "bar",
                     data: {
                         labels: labelValues,
@@ -73,7 +84,11 @@
                     options: {
                         responsive: false
                     }
-                });
+                };
+
+                embedView.children[0].innerHTML = JSON.stringify(chartsData)
+
+                var chart = new Chart(chartCanvas, );
 
             }
         }
@@ -135,6 +150,12 @@
 
         #canvaschart {
             width: 100%;
+        }
+
+        .embed {
+            width: 100%;
+            height: auto;
+            max-height: 0px;
         }
 
     </style>

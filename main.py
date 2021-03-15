@@ -46,8 +46,24 @@ def embed(data=""):
 @app.route("/github/")
 @app.route("/source")
 @app.route("/source/")
-def source():
-    return redirect("https://github.com/VL07/All_Visualizer")
+@app.route("/github/<page>")
+@app.route("/source/<page>")
+@app.route("/github/<page>/")
+@app.route("/source/<page>/")
+def source(page=""):
+    if not page:
+        page = request.args.get("page")
+    
+    if not page:
+        return redirect("https://github.com/VL07/All_Visualizer")
+
+    return redirect("https://github.com/VL07/All_Visualizer/" + page)
+
+@app.route("/wiki")
+@app.route("/wiki/")
+def wiki():
+    return redirect("https://github.com/VL07/All_Visualizer/wiki")
+
 
 if __name__ == "__main__":
     app.run(host="127.0.0.1", port="5001")
