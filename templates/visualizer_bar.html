@@ -10,7 +10,7 @@
 </head>
 <body>
     <div class="viewer">
-        <canvas id="canvaschart"></canvas>
+        <canvas id="canvaschart" style="height: 80%; width: 100%;"></canvas>
 
         <button class="showembed" id="showembed">
             x
@@ -42,13 +42,15 @@
 
     <script>
 
-        const chartCanvas = document.getElementById("canvaschart").getContext("2d");
+        var chartCanvas = document.getElementById("canvaschart").getContext("2d");
         const labels = document.getElementsByClassName("label");
         const values = document.getElementsByClassName("value");
         const embedView = document.getElementById("embed");
+        const viewer = document.getElementsByClassName("viewer")[0];
         var labelValues = [];
         var valueValues = [];
         var chartsData = {};
+        var chart = new Chart(chartCanvas, chartsData);
 
         update();
 
@@ -67,6 +69,10 @@
                 BAR
                 */
 
+                document.getElementById("canvaschart").remove();
+
+                viewer.innerHTML = '<canvas id="canvaschart" style="height: 100%; width: 100%;"></canvas>' + viewer.innerHTML;
+
                 
                 
                 chartsData = {
@@ -77,8 +83,10 @@
                             label: document.getElementById("title").value,
                             data: valueValues,
                             fill: true,
-                            borderColor: "#000"
-
+                            borderColor: "#000",
+                            backgroundColor: "rgba(79, 167, 255, 0.2)",
+                            borderColor: "rgb(79, 167, 255)",
+                            borderWidth: 1
                         }]
                     },
                     options: {
@@ -87,8 +95,10 @@
                 };
 
                 embedView.children[0].innerHTML = JSON.stringify(chartsData)
-
-                var chart = new Chart(chartCanvas, );
+                
+                chartCanvas = document.getElementById("canvaschart");
+                
+                chart = new Chart(chartCanvas, chartsData);
 
             }
         }
@@ -123,6 +133,15 @@
 
         }
 
+        function embedTogle() {
+            const e = document.getElementById("embed");
+            if (e.style.maxHeight == "0px") {
+                e.style.maxHeight = "20%";
+            } else {
+                e.style.maxHeight = "0px";
+            }
+        }
+
     </script>
 
     <style>
@@ -143,7 +162,13 @@
             background-color: #4fa7ff;
             color: white;
             font-family: sans-serif;
-            
+            position: relative;
+            left: -5px;
+        }
+
+        .settings {
+            max-height: 50vh;
+            overflow: scroll;
         }
 
         input {
@@ -205,8 +230,9 @@
 
         .embed {
             width: 100%;
-            height: auto;
+            height: 20%;
             max-height: 0px;
+            overflow: hidden;
         }
 
     </style>
