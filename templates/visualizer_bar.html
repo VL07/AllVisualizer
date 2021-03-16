@@ -23,7 +23,7 @@
         <div class="settings" id="settings">
             <h1>Settings</h1>
             <label for="title"></label>
-            <input type="text" id="title" name="title" onchange="update()">
+            <input type="text" id="title" name="title" onchange="update()" placeholder="Title">
             <div class="data expandable-open">
                 <p>Miniise</p>
                 <input type="text" class="label" placeholder="Label" onchange="update()">
@@ -139,10 +139,61 @@
 
         .sidebar {
             width: calc(35% - 5px);
-            border-left: 4px solid black;
             overflow: hidden;
+            background-color: #4fa7ff;
+            color: white;
+            font-family: sans-serif;
             
         }
+
+        input {
+            background-color: transparent;
+            border: none;
+            border-bottom: 2px solid white;
+            border-radius: 0px;
+            height: 20px;
+            outline: none;
+            color: white;
+            font-size: 15px;
+            margin: 10px 0px 0px 5px;
+            transition: .3s all ease-out;
+        }
+
+        input:hover,
+        input:focus {
+            box-shadow: 0px 5px 5px 0px rgba(0, 0, 0, 0.404);
+        }
+
+        input::placeholder {
+            color: white;
+            font-family: sans-serif;
+            font-size: 15px;
+        }
+
+        input::-webkit-outer-spin-button,
+        input::-webkit-inner-spin-button {
+            background-color: #4fa7ff;
+            box-shadow: 0px 5px 5px 0px rgba(0, 0, 0, 0.404);
+        }
+
+        button {
+            border-radius: 0px;
+            border: 2px solid white;
+            outline: none;
+            margin: 10px 0px 0px 5px;
+            background-color: transparent;
+            color: white;
+            font-size: 15px;
+            height: 25px;
+            padding: 0px 10px;
+            transition: .3s ease-out all;
+        }
+
+        button:hover,
+        button:focus {
+            box-shadow: 0px 5px 5px 0px rgba(0, 0, 0, 0.404);
+        }
+
 
         .settings {
 
