@@ -34,9 +34,21 @@ def visualizer(thing):
     else:
         return render_template("visualizernotfound.html", visualizer=thing, valid=list(visualizers.values()), links=list(visualizers.keys()), len=len(visualizers))
 
+@app.route("/s")
+@app.route("/s/")
 @app.route("/s/<key>/")
 @app.route("/s/<key>")
-def sharedVisualiser(key=None)
+def sharedVisualiser(key=None):
+    if key == None:
+        key = request.args.get("key")
+    
+    if key == None:
+        return render_template("errors/notvalidkey.html")
+
+    if RUNSINREPLIT:
+        pass
+    else:
+        pass
 
 
 @app.route("/visualizer")
