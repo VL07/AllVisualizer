@@ -11,13 +11,6 @@
 <body>
     <div class="viewer">
         <canvas id="canvaschart" style="height: 80%; width: 100%;"></canvas>
-
-        <button class="showembed" id="showembed">
-            x
-        </button>
-        <div class="embed" id="embed">
-            <p></p>
-        </div>
     </div>
     <div class="sidebar">
         <div class="settings" id="settings">
@@ -37,6 +30,10 @@
         </div>
         <div class="info">
             <h1>Info</h1>
+        </div>
+        <div class="embed" id="embed">
+            <h1>Link</h1>
+            <a target="_blank" href="{{url}}">{{url}}</a>
         </div>
     </div>
 
@@ -94,8 +91,10 @@
                     }
                 };
 
-                embedView.children[0].innerHTML = JSON.stringify(chartsData)
-                
+                // Changes embeds text
+                /*
+                embedView.children[1].innerHTML = JSON.stringify(chartsData)
+                */
                 chartCanvas = document.getElementById("canvaschart");
                 
                 chart = new Chart(chartCanvas, chartsData);
@@ -133,6 +132,7 @@
 
         }
 
+        /* REMOVE LATER!!!
         function embedTogle() {
             const e = document.getElementById("embed");
             if (e.style.maxHeight == "0px") {
@@ -141,6 +141,7 @@
                 e.style.maxHeight = "0px";
             }
         }
+        */
 
     </script>
 
@@ -220,19 +221,24 @@
         }
 
 
-        .settings {
-
-        }
-
         #canvaschart {
             width: 100%;
         }
 
         .embed {
             width: 100%;
-            height: 20%;
-            max-height: 0px;
-            overflow: hidden;
+            height: auto;
+        }
+
+        a {
+            color: #fff;
+            transition: all 0.3s ease-out;
+            text-decoration: underline !important;
+        }
+
+        a:hover {
+            color: #fff;
+            text-shadow: 0px 5px 5px rgba(0, 0, 0, 0.404);
         }
 
     </style>

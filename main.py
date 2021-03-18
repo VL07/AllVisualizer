@@ -1,8 +1,23 @@
 from flask import Flask, redirect, render_template, url_for, request
+import random
+import string
 
 app = Flask(__name__)
 
 visualizers = {"text": "Text", "graf": "Graf", "bar": "Bar"}
+
+# URL IMPORTANT
+URL = "http://127.0.0.1:5001"
+# SET TO TRUE IF IN REPLIT.COM (OR REPL.IT) IMPORTANT
+RUNSINREPLIT = False
+
+def randomUniceKey(l=8):
+    if RUNSINREPLIT:
+        # ADD DATABASE FOR REPLIT
+        pass
+    else:
+        s = ''.join(random.choice(string.ascii_letters + str(string.digits)) for i in range(l))
+        return s
 
 @app.route("/")
 def index():
@@ -12,12 +27,18 @@ def index():
 def visualizer(thing):
     if thing in visualizers.keys():
         if thing == "bar":
-            return render_template("visualizer_bar.html", visualizer=thing)
+            return render_template("visualizer_bar.html", visualizer=thing, url=URL+"/"+randomUniceKey()+"/")
         else:
             return render_template("visualizernotfound.html", visualizer=thing, valid=list(visualizers.values()), links=list(visualizers.keys()), len=len(visualizers))
             
     else:
         return render_template("visualizernotfound.html", visualizer=thing, valid=list(visualizers.values()), links=list(visualizers.keys()), len=len(visualizers))
+
+@app.route("/s/<key>/")
+@app.route("/s/<key>")
+def sharedVisualiser(key=None)
+
+
 @app.route("/visualizer")
 @app.route("/visualizer/")
 def vislist():
