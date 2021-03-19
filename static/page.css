@@ -3,4 +3,5 @@ body {
     margin: 0px !important;
     background: #f9f7f1;
     height: 100vh;
+    position: relative;
 }
