@@ -5,3 +5,8 @@ body {
     height: 100vh;
     position: relative;
 }
+
+footer {
+    position: relative !important;
+    bottom: 0px;
+}

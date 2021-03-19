@@ -7,11 +7,41 @@
     <title>All Visualizer</title>
 </head>
 <body>
+
+    <style>
+
+        body {
+            font-family: sans-serif;
+            color: black;
+        }
+
+        h1 {
+            margin-left: 10px;
+        }
+
+        h3 {
+            margin-left: 10px;
+            font-size: 15px;
+        }
+
+
+
+        a {
+            transition: .3s ease-out all;
+            color: #4fa7ff;
+            font-family: sans-serif;
+        }
+
+        a:hover {
+            text-shadow: 0px 5px 5px rgba(0, 0, 0, 0.404);
+        }
+
+    </style>
+
     {% include "notifications.html" %}
     {% include "header.html" %}
     
-    <h1>We couldn't find a Visualizer with the key "{{key}}" or there was an error in our code</h1>
-    <h3>You could try to:</h3>
+    <h1>For some features to work the code needs to be runing in <a href="{{ replitURL }}">Replit.com</a></h1>
 
     {% include "footer.html" %}
 </body>
