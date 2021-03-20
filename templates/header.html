@@ -1,6 +1,8 @@
 <header>
     <a href="{{ url_for('index') }}"><img class="logosvg" src="{{ url_for('static', filename='logo.svg')}}" alt="AV"></a>
-    <a class="box" href="#">Home</a>
+    <a class="box" href="{{ url_for('vislist') }}">Create</a>
+    <a href="{{ url_for('help') }}" class="box">Help</a>
+    <a href="{{ url_for('source') }}" class="box" target="_blank" rel="nofollow">Github</a>
 </header>
 
 <style>
