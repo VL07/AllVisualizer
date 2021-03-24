@@ -17,8 +17,8 @@
             <h1>Settings</h1>
             <label for="title"></label>
             <input type="text" id="title" name="title" onchange="update()" placeholder="Title">
-            <div class="data expandable-open">
-                <p>Miniise</p>
+            <div class="data expandable-open" id="minimize-1">
+                <p onclick="mini('minimize-1')">Miniise</p>
                 <input type="text" class="label" placeholder="Label" onchange="update()">
                 <input type="number" class="value" placeholder="Value" onchange="update()">
                 <br>
@@ -38,6 +38,17 @@
     </div>
 
     <script>
+
+        function mini(elementid) {
+            // gets element to minimise
+            const e = document.getElementById(elementid);
+            
+            if (e.style.maxHeight == "1em") {
+                e.style.maxHeight = "99999px";
+            } else {
+                e.style.maxHeight = "1em";
+            }
+        }
 
         var chartCanvas = document.getElementById("canvaschart").getContext("2d");
         const labels = document.getElementsByClassName("label");
