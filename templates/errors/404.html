@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Visualizer</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='page.css') }}">
+</head>
+<body>
+
+    <style>
+
+        body {
+            font-family: sans-serif;
+            color: black;
+        }
+
+        h1 {
+            margin-left: 10px;
+        }
+
+        h3 {
+            margin-left: 10px;
+            font-size: 15px;
+        }
+
+
+
+        a {
+            transition: .3s ease-out all;
+            color: #4fa7ff;
+            font-family: sans-serif;
+        }
+
+        a:hover {
+            text-shadow: 0px 5px 5px rgba(0, 0, 0, 0.404);
+        }
+
+    </style>
+
+    {% include "notifications.html" %}
+    {% include "header.html" %}
+    
+    <h1>The page you where looking for has either been removed or you have misspelled the URL, please check your spelling if you typed it in by hand or go to the <a href="{{ url_for('index') }}">home page</a>.</h1>
+
+
+    {% include "footer.html" %}
+</body>
+</html>

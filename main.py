@@ -22,6 +22,15 @@ def randomUniceKey(l=8):
         s = ''.join(random.choice(string.ascii_letters + str(string.digits)) for i in range(l))
         return s
 
+
+# 404
+@app.errorhandler(404)
+def error_404(error):
+    return render_template("errors/404.html")
+
+
+
+#index
 @app.route("/")
 def index():
     return render_template("index.html")
