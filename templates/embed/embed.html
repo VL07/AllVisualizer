@@ -16,8 +16,35 @@
     <script>
 
         const chartCanvas = document.getElementById("canvas");
+        const labels = []
+        const values = []
 
-        var chart = new Chart(chartCanvas, JSON.parse({{data}});
+        {% for label in labels %}
+            labels.push("{{label}}")
+        {% endfor %}
+
+        {% for value in values %}
+            values.push("{{value}}")
+        {% endfor %}
+
+        var chart = new Chart(chartCanvas, {
+            type: "bar",
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: '{{label}}',
+                    data: values,
+                    fill: true,
+                    borderColor: "#000",
+                    backgroundColor: "rgba(79, 167, 255, 0.2)",
+                    borderColor: "rgb(79, 167, 255)",
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true
+            }
+        });
 
     </script>
 
