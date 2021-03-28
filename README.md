@@ -1,5 +1,5 @@
 # [🔗AllVisualizer](https://all-visualizer.vl07.repl.co/ "Link to replit.com")
-### A chart creator made for TWT's timathon jam in march 2021 made by @VL07
+### A chart creator made for TWT's timathon jam in march 2021 made by [@VL07](https://github.com/VL07/)
 
 ------
 
@@ -33,4 +33,4 @@ if the link [above](link-to-the-website) isn't working try going [🔗here](http
 
 -------
 ## Creators
-[🔗All Visualizer](https://all-visualizer.vl07.repl.co/ "Link to replit.com") was created by @VL07 in march of 2021 for [🔗TWTs](https://www.youtube.com/channel/UC4JX40jDee_tINbkjycV4Sg "TWTs Youtube channel") code jam with the theme visualization. You can view all submitions [🔗here](https://twtcodejam.net/timathon/).
+[🔗All Visualizer](https://all-visualizer.vl07.repl.co/ "Link to replit.com") was created by [@VL07](https://github.com/VL07/) in march of 2021 for [🔗TWTs](https://www.youtube.com/channel/UC4JX40jDee_tINbkjycV4Sg "TWTs Youtube channel") code jam with the theme visualization. You can view all submitions [🔗here](https://twtcodejam.net/timathon/).
