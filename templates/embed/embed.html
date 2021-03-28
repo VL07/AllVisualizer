@@ -27,24 +27,50 @@
             values.push("{{value}}")
         {% endfor %}
 
-        var chart = new Chart(chartCanvas, {
-            type: "{{type}}",
-            data: {
-                labels: labels,
-                datasets: [{
-                    label: '{{label}}',
-                    data: values,
-                    fill: true,
-                    borderColor: "#000",
-                    backgroundColor: "rgba(79, 167, 255, 0.2)",
-                    borderColor: "rgb(79, 167, 255)",
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                responsive: true
-            }
-        });
+        if ("{{type}}" == "bar") {
+            var chart = new Chart(chartCanvas, {
+                type: "{{type}}",
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: '{{label}}',
+                        data: values,
+                        fill: true,
+                        borderColor: "#000",
+                        backgroundColor: "rgba(79, 167, 255, 0.2)",
+                        borderColor: "rgb(79, 167, 255)",
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true
+                }
+            });
+        } else if ("{{type}}" == "line") {
+            var chart = new Chart(chartCanvas, {
+                type: "{{type}}",
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: '{{label}}',
+                        data: values,
+                        fill: true,
+                        borderColor: "#000",
+                        backgroundColor: "rgba(79, 167, 255, 0.2)",
+                        borderColor: "rgb(79, 167, 255)",
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    elements: {
+                        line: {
+                            tension: {{tension}}
+                        }
+                    }
+                }
+            });
+        }
 
     </script>
 

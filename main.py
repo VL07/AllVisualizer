@@ -5,7 +5,7 @@ import json
 
 app = Flask(__name__)
 
-visualizers = {"bar": "Bar"}
+visualizers = {"bar": "Bar", "line": "Line"}
 
 # URL IMPORTANT
 URL = "http://127.0.0.1:5001"
@@ -64,6 +64,23 @@ def visualizer(thing):
             print(url, editurl)
 
             return render_template("visualizer_bar.html", visualizer=thing, url=url, editurl=editurl, surl=url_for('sharedVisualiser', _external=True))
+
+        elif thing == "line":
+            url = randomUniceKey()
+            while url in list(db.keys()):
+                url = randomUniceKey()
+
+            #adds to db
+            db[url] = {"data": {"values": [], "labels": [], "label": "", "tension": 0}, "type": "line"}
+
+            editurl = randomUniceKey()
+
+            db[url + editurl] = {"type": "line", "data": {"values": [], "labels": [], "label": "", "tension": ""}}
+            
+            print(url, editurl)
+
+            return render_template("visualizer_line.html", visualizer=thing, url=url, editurl=editurl, surl=url_for('sharedVisualiser', _external=True))
+
         else:
             return render_template("visualizernotfound.html", visualizer=thing, valid=list(visualizers.values()), links=list(visualizers.keys()), len=len(visualizers))
             
@@ -119,6 +136,25 @@ def sharedVisualiser(key=None, keytwo=None):
                         print(label)
                         return render_template("visualizer_bar.html", visualizer=thing, url=url, editurl=editurl, labels=labels, values=values, label=label, surl=url_for('sharedVisualiser', _external=True))
 
+                    elif typeofchart == "line":
+                        data = db[key + keytwo]["data"]
+
+                        # url sets in html file
+                        url = key
+                        editurl = keytwo
+
+                        thing = typeofchart
+
+                        values = data["values"]
+                        labels = data["labels"]
+                        label = data["label"]
+                        tension = data["tension"]
+                        
+                        print(values)
+                        print(labels)
+                        print(label)
+                        return render_template("visualizer_line.html", visualizer=thing, url=url, editurl=editurl, labels=labels, values=values, label=label, surl=url_for('sharedVisualiser', _external=True), tension=tension)
+
                     else:
                         #not a valid type
                         # so we delete it so it don't take space on the db
@@ -139,6 +175,9 @@ def sharedVisualiser(key=None, keytwo=None):
 
                 print(db[key]["data"]["values"])
                 print(json.dumps(db[key]["data"]["values"]))
+                if db[key]["type"] == "line":
+                    return render_template("embed/embed.html", label=db[key]["data"]["label"], values=db[key]["data"]["values"], labels=db[key]["data"]["labels"], type=db[key]["type"], tension=db[key]["data"]["tension"])
+
                 return render_template("embed/embed.html", label=db[key]["data"]["label"], values=db[key]["data"]["values"], labels=db[key]["data"]["labels"], type=db[key]["type"])
 
         else:
@@ -175,16 +214,31 @@ def saveToDb(key=None, keytwo=None):
     if not str(key + keytwo) in list(db.keys()):
         return "not valid keys"
     
-
+    print(db[key]["type"])
+    print(db[key]["data"])
     db[key]["data"] = {}
+    db[key + keytwo]["data"] = {}
+    print(request.args.get("tension"))
+    if db[key]["type"] == "line":
+        tension = request.args.get("tension")
+        print("saving line")
+        if tension == "" or tension == None:
+            print("error saving tension ")
+            return "missing value tension"
+        db[key]["data"]["tension"] = tension
+        db[key + keytwo]["data"]["tension"] = tension
+
+    
     db[key]["data"]["labels"] = labels
     db[key]["data"]["values"] = values
     db[key]["data"]["label"] = label
 
-    db[key + keytwo]["data"] = {}
+    
     db[key + keytwo]["data"]["labels"] = labels
     db[key + keytwo]["data"]["values"] = values
     db[key + keytwo]["data"]["label"] = label
+
+    
 
     print("saved to db")
     print(db)
