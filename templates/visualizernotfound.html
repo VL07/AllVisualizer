@@ -9,11 +9,39 @@
     <title>Visualizer not found</title>
 </head>
 <body>
+
+    <style>
+
+        li::marker {
+            color: black;
+        }
+
+        a {
+            color: black;
+            transition: all 0.3s ease-out;
+        }   
+
+        a:hover {
+            color: black;
+            text-shadow: 0px 5px 5px rgba(0, 0, 0, 0.404);
+        }
+        
+        body {
+            color: black;
+            font-family: sans-serif;
+        }
+
+        h2 {
+            font-size: 25px;
+        }
+
+    </style>
+
     {% include "notifications.html" %}
     {% include "header.html" %}
     <ul>
     {%for i in range(len)%}
-    <li><a href="{{ url_for('index')}}visualizer/{{links[i]}}">{{valid[i]}}</a></li>
+    <li><h2><a href="{{ url_for('index')}}visualizer/{{links[i]}}">{{valid[i]}}</a></h2></li>
     {%endfor%}
     </ul>
 

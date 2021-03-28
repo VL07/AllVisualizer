@@ -5,7 +5,7 @@ import json
 
 app = Flask(__name__)
 
-visualizers = {"text": "Text", "graf": "Graf", "bar": "Bar"}
+visualizers = {"bar": "Bar"}
 
 # URL IMPORTANT
 URL = "http://127.0.0.1:5001"
@@ -162,7 +162,7 @@ def saveToDb(key=None, keytwo=None):
 
     if request.args.get("labels") == "" or request.args.get("values") == "" or request.args.get("label") == "" or request.args.get("labels") == None or request.args.get("values") == None or request.args.get("label") == None:
         return "no data"
-        
+
 
     labels = request.args.get("labels").split(",")
     values = request.args.get("values").split(",")

@@ -27,18 +27,21 @@
                 <button onclick="addMoreData()">Add more data</button>
             </div>
         </div>
-        <div class="funfacts">
-            <h1>Funfacts</h1>
-        </div>
-        <div class="info">
-            <h1>Info</h1>
-        </div>
         <div class="embed" id="embed">
             <h1>Link</h1>
             <h3>Embed/view only</h3>
             <a target="_blank" href="{{surl}}{{url}}/">{{surl}}{{url}}/</a>
             <h3>Edit link</h3>
             <a target="_blank" href="{{surl}}{{url}}/{{editurl}}/">{{surl}}{{url}}/{{editurl}}/</a>
+        </div>
+        <div class="other">
+            <h1>Other</h1>
+            <p>Useful links</p>
+            <ul>
+                <li><a href="{{ url_for('index') }}">Home</a></li>
+                <li><a href="{{ url_for('help') }}">Help</a></li>
+                <li><a href="https://github.com/VL07/All_Visualizer/">Github</a></li>
+            </ul>
         </div>
     </div>
 
@@ -320,6 +323,15 @@
         a:hover {
             color: #fff;
             text-shadow: 0px 5px 5px rgba(0, 0, 0, 0.404);
+        }
+
+        li::before {
+            color: white;
+            content: "\2022";
+        }
+
+        ul {
+            list-style: none;
         }
 
     </style>
