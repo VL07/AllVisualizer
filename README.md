@@ -1,5 +1,6 @@
-# [🔗AllVisualizer](https://all-visualizer.vl07.repl.co/ "Link to replit.com")
+# [🔗AllVisualizer](https://all-visualizer.vl07.repl.co/ "Link to replit.com") :octocat:
 ### A chart creator made for TWT's timathon jam in march 2021 made by [@VL07](https://github.com/VL07/)
+
 
 ------
 
