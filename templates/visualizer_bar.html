@@ -66,48 +66,64 @@
         var chart = new Chart(chartCanvas, chartsData);
         var removeNr = 3;
 
-        if ("{{data}}" != "") {
-            chartsData = JSON.parse("{{data}}")
-
-            chartsData.data.datasets[0].label = document.getElementById("title").value;
-
-
-            // -----------------
-            const settings = document.getElementById("settings");
-            const dataDiv = document.querySelector("#settings > div.data");
+        if ("{{label}}" != "" && "" != "{{labels}}" && "{{values}}" != "") {
             
-            // gets values
-            labelValues = chartsData.data.labels;
-            valueValues = chartsData.data.datasets[0].data;
+            const label = "{{label}}";
+            var labels2 = [];
+            var values2 = [];
+
+            // working
+            {% for v in labels %}
+                labels2.push("{{v}}");
+                console.log("{{v}}")
+            {% endfor %}
+
+            {% for v in values %}
+                values2.push("{{v}}");
+                console.log("{{v}}")
+            {% endfor %}
+
+            console.log(labels2)
+
+            const dataDiv = document.getElementById("minimize-1");
+            var loops = 0;
+            // problem
             
-            for (i = 0; i < labelValues.length; i++) {
+            console.log(dataDiv)
+            console.log(dataDiv.children.length)
 
-                //removes add button and br tag
-                dataDiv.removeChild(dataDiv.lastChild);
-                dataDiv.removeChild(dataDiv.lastChild);
+            dataDiv.innerHTML = '<p onclick="mini(\'minimize-1\')">Miniise</p>'
 
-                // adds removed stuff + input 
-                dataDiv.innerHTML += '<input type="text" class="label" placeholder="Label" onchange="update()"><input type="number" class="value" placeholder="Value" onchange="update()"><br><button onclick="addMoreData()">Add more data</button>';
-            
-            }
+            {% for i in range(labels|length) %}
+                
 
-            // sets valuse to inputs
-            ri = 0
-            for (i = 0; i < labelValues.length; i++) {
-                if (labelValues.length < i) {
-                    break;
-                } else {
-                    labels[i].value = labelValues[i];
-                    values[i].value = valueValues[i];
-                }
-                ri++;
-            }
+                dataDiv.innerHTML = dataDiv.innerHTML + '<input value="' + labels2[{{i}}] + '" type="text" class="label" placeholder="Label" onchange="update()" id="remove' + removeNr + '"><input value="' + values2[{{i}}] + '" type="number" class="value" placeholder="Value" onchange="update()" id="remove' + (removeNr + 1) + '"><button onclick="remove(' + (removeNr + 2) + ')" id="remove' + (removeNr + 2) + '">x</button><br>'
+
+                /*
+                console.log("seting values time: {{i}}")
+                document.getElementById("remove" + removeNr).value = labels2[{{i}}];
+                document.getElementById("remove" + (removeNr + 1)).value = values2[{{i}}];
+
+                console.log(labels2[{{i}}])
+
+                console.log(document.getElementById("remove" + removeNr))
+                console.log(document.getElementById("remove" + (removeNr + 1)))
+                console.log(document.getElementById("remove" + removeNr).value)
+                */
+
+                removeNr += 3;
+            {% endfor %}
+
+            dataDiv.innerHTML += '<button onclick="addMoreData()">Add more data</button>';
+
+            document.getElementById("title").value = label;
 
         }
 
         update();
 
         function update() {
+            console.warn("updating")
 
            
             labelValues = [];
