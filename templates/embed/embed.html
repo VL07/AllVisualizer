@@ -28,7 +28,7 @@
         {% endfor %}
 
         var chart = new Chart(chartCanvas, {
-            type: "bar",
+            type: "{{type}}",
             data: {
                 labels: labels,
                 datasets: [{

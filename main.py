@@ -51,11 +51,11 @@ def visualizer(thing):
                 url = randomUniceKey()
 
             #adds to db
-            db[url] = {"data": ""}
+            db[url] = {"data": {"values": [], "labels": [], "label": ""}, "type": "bar"}
 
             editurl = randomUniceKey()
 
-            db[url + editurl] = {"type": "bar", "data": ""}
+            db[url + editurl] = {"type": "bar", "data": {"values": [], "labels": [], "label": ""}}
             
             # purl = url # sets urls to anoutehr var that tont change
             # url = str(url_for("sharedVisualiser") + "/" + url + "/")
@@ -109,8 +109,15 @@ def sharedVisualiser(key=None, keytwo=None):
                         editurl = keytwo
 
                         thing = typeofchart
+
+                        values = data["values"]
+                        labels = data["labels"]
+                        label = data["label"]
                         
-                        return render_template("visualizer_bar.html", visualizer=thing, url=url, editurl=editurl, data=data, surl=url_for('sharedVisualiser', _external=True))
+                        print(values)
+                        print(labels)
+                        print(label)
+                        return render_template("visualizer_bar.html", visualizer=thing, url=url, editurl=editurl, labels=labels, values=values, label=label, surl=url_for('sharedVisualiser', _external=True))
 
                     else:
                         #not a valid type
@@ -132,7 +139,7 @@ def sharedVisualiser(key=None, keytwo=None):
 
                 print(db[key]["data"]["values"])
                 print(json.dumps(db[key]["data"]["values"]))
-                return render_template("embed/embed.html", label=db[key]["data"]["label"], values=db[key]["data"]["values"], labels=db[key]["data"]["labels"])
+                return render_template("embed/embed.html", label=db[key]["data"]["label"], values=db[key]["data"]["values"], labels=db[key]["data"]["labels"], type=db[key]["type"])
 
         else:
             return render_template("errors/notvalidkey.html", key=key)
@@ -153,6 +160,9 @@ def saveToDb(key=None, keytwo=None):
     print(request.args.get("values"))
     print(request.args.get("label"))
 
+    if request.args.get("labels") == "" or request.args.get("values") == "" or request.args.get("label") == "" or request.args.get("labels") == None or request.args.get("values") == None or request.args.get("label") == None:
+        return "no data"
+
     labels = request.args.get("labels").split(",")
     values = request.args.get("values").split(",")
     label = request.args.get("label")
@@ -160,6 +170,7 @@ def saveToDb(key=None, keytwo=None):
     if not key or not keytwo or not labels or not values or not label:
         return "error not enouth data"
     
+
     if not str(key + keytwo) in list(db.keys()):
         return "not valid keys"
     
