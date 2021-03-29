@@ -10,7 +10,7 @@
 * [Creators](#creators)
 ------
 ## [🔗Link to the website](https://all-visualizer.vl07.repl.co/)
-if the link [above](link-to-the-website) isn't working try going [🔗here](https://replit.com/@VL07/All-Visualizer#main.py "Link to the project on Replit") and press the green **Run** button at the top. After that you can click on the **Open in a new tab** icon on the top right next to the close icon.
+If the link [above](link-to-the-website) isn't working try going [🔗here](https://replit.com/@VL07/All-Visualizer#main.py "Link to the project on Replit") and press the green **Run** button at the top. After that you can click on the **Open in a new tab** icon on the top right next to the close icon.
 
 ------
 ## How to
