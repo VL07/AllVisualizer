@@ -5,7 +5,7 @@ import json
 
 app = Flask(__name__)
 
-visualizers = {"bar": "Bar", "line": "Line"}
+visualizers = {"bar": "Bar", "line": "Line", "pie": "Pie"}
 
 # URL IMPORTANT
 URL = "http://127.0.0.1:5001"
@@ -81,6 +81,23 @@ def visualizer(thing):
 
             return render_template("visualizer_line.html", visualizer=thing, url=url, editurl=editurl, surl=url_for('sharedVisualiser', _external=True))
 
+        elif thing == "pie":
+
+            url = randomUniceKey()
+            while url in list(db.keys()):
+                url = randomUniceKey()
+
+            #adds to db
+            db[url] = {"data": {"values": [], "labels": [], "label": ""}, "type": "pie"}
+
+            editurl = randomUniceKey()
+
+            db[url + editurl] = {"type": "pie", "data": {"values": [], "labels": [], "label": ""}}
+            
+            print(url, editurl)
+
+            return render_template("visualizer_pie.html", visualizer=thing, url=url, editurl=editurl, surl=url_for('sharedVisualiser', _external=True))
+
         else:
             return render_template("visualizernotfound.html", visualizer=thing, valid=list(visualizers.values()), links=list(visualizers.keys()), len=len(visualizers))
             
@@ -155,6 +172,25 @@ def sharedVisualiser(key=None, keytwo=None):
                         print(label)
                         return render_template("visualizer_line.html", visualizer=thing, url=url, editurl=editurl, labels=labels, values=values, label=label, surl=url_for('sharedVisualiser', _external=True), tension=tension)
 
+                    elif typeofchart == "pie":
+                        data = db[key + keytwo]["data"]
+
+                        # url sets in html file
+                        url = key
+                        editurl = keytwo
+
+                        thing = typeofchart
+
+                        values = data["values"]
+                        labels = data["labels"]
+                        label = data["label"]
+                        
+                        print(values)
+                        print(labels)
+                        print(label)
+                        return render_template("visualizer_pie.html", visualizer=thing, url=url, editurl=editurl, labels=labels, values=values, label=label, surl=url_for('sharedVisualiser', _external=True))
+
+
                     else:
                         #not a valid type
                         # so we delete it so it don't take space on the db
@@ -178,7 +214,7 @@ def sharedVisualiser(key=None, keytwo=None):
                 if db[key]["type"] == "line":
                     return render_template("embed/embed.html", label=db[key]["data"]["label"], values=db[key]["data"]["values"], labels=db[key]["data"]["labels"], type=db[key]["type"], tension=db[key]["data"]["tension"])
 
-                return render_template("embed/embed.html", label=db[key]["data"]["label"], values=db[key]["data"]["values"], labels=db[key]["data"]["labels"], type=db[key]["type"])
+                return render_template("embed/embed.html", label=db[key]["data"]["label"], values=db[key]["data"]["values"], labels=db[key]["data"]["labels"], type=db[key]["type"], tension=0)
 
         else:
             return render_template("errors/notvalidkey.html", key=key)

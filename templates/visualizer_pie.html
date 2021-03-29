@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Visualizer</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='page.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+</head>
+<body>
+    <div class="viewer">
+        <canvas id="canvaschart" style="height: 75%; width: 100%;"></canvas>
+    </div>
+    <div class="sidebar">
+        <div class="settings" id="settings">
+            <h1>Settings</h1>
+            <label for="title"></label>
+            <input type="text" id="title" name="title" onchange="update()" placeholder="Title">
+            <div class="data expandable-open" id="minimize-1">
+                <p onclick="mini('minimize-1')">Minimize</p>
+                <input type="text" class="label" placeholder="Label" onchange="update()" id="remove0">
+                <input type="number" class="value" placeholder="Value" onchange="update()" id="remove1">
+                <button onclick="remove(2)" id="remove2">x</button>
+                <br>
+                <button onclick="addMoreData()">Add more data</button>
+            </div>
+        </div>
+        <div class="embed" id="embed">
+            <h1>Link</h1>
+            <h3>Embed/view only</h3>
+            <a target="_blank" href="{{surl}}{{url}}/">{{surl}}{{url}}/</a>
+            <h3>Edit link</h3>
+            <a target="_blank" href="{{surl}}{{url}}/{{editurl}}/">{{surl}}{{url}}/{{editurl}}/</a>
+        </div>
+        <div class="other">
+            <h1>Other</h1>
+            <p>Useful links</p>
+            <ul>
+                <li><a href="{{ url_for('index') }}">Home</a></li>
+                <li><a href="{{ url_for('help') }}">Help</a></li>
+                <li><a href="https://github.com/VL07/All_Visualizer/">Github</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+
+        function mini(elementid) {
+            // gets element to minimise
+            const e = document.getElementById(elementid);
+            
+            if (e.style.maxHeight == "1em") {
+                e.style.maxHeight = "99999px";
+            } else {
+                e.style.maxHeight = "1em";
+            }
+        }
+
+        var chartCanvas = document.getElementById("canvaschart").getContext("2d");
+        const labels = document.getElementsByClassName("label");
+        const values = document.getElementsByClassName("value");
+        const embedView = document.getElementById("embed");
+        const viewer = document.getElementsByClassName("viewer")[0];
+        var labelValues = [];
+        var valueValues = [];
+        var chartsData = {};
+        var chart = new Chart(chartCanvas, chartsData);
+        var removeNr = 3;
+
+        if ("{{label}}" != "" && "" != "{{labels}}" && "{{values}}" != "") {
+            
+            const label = "{{label}}";
+            var labels2 = [];
+            var values2 = [];
+
+            // working
+            {% for v in labels %}
+                labels2.push("{{v}}");
+                console.log("{{v}}")
+            {% endfor %}
+
+            {% for v in values %}
+                values2.push("{{v}}");
+                console.log("{{v}}")
+            {% endfor %}
+
+            console.log(labels2)
+
+            const dataDiv = document.getElementById("minimize-1");
+            var loops = 0;
+            // problem
+            
+            console.log(dataDiv)
+            console.log(dataDiv.children.length)
+
+            dataDiv.innerHTML = '<p onclick="mini(\'minimize-1\')">Miniise</p>'
+
+            {% for i in range(labels|length) %}
+                
+
+                dataDiv.innerHTML = dataDiv.innerHTML + '<input value="' + labels2[{{i}}] + '" type="text" class="label" placeholder="Label" onchange="update()" id="remove' + removeNr + '"><input value="' + values2[{{i}}] + '" type="number" class="value" placeholder="Value" onchange="update()" id="remove' + (removeNr + 1) + '"><button onclick="remove(' + (removeNr + 2) + ')" id="remove' + (removeNr + 2) + '">x</button><br>'
+
+                /*
+                console.log("seting values time: {{i}}")
+                document.getElementById("remove" + removeNr).value = labels2[{{i}}];
+                document.getElementById("remove" + (removeNr + 1)).value = values2[{{i}}];
+
+                console.log(labels2[{{i}}])
+
+                console.log(document.getElementById("remove" + removeNr))
+                console.log(document.getElementById("remove" + (removeNr + 1)))
+                console.log(document.getElementById("remove" + removeNr).value)
+                */
+
+                removeNr += 3;
+            {% endfor %}
+
+            dataDiv.innerHTML += '<button onclick="addMoreData()">Add more data</button>';
+
+            document.getElementById("title").value = label;
+
+        }
+
+        update();
+        update();
+
+        function update() {
+            console.warn("updating")
+
+           
+            labelValues = [];
+            valueValues = [];
+            for (i = 0; i < labels.length; i++) {
+                labelValues.push(labels[i].value);
+                valueValues.push(values[i].value);
+            }
+
+            if ("{{ visualizer }}" == "pie") {
+                /*
+                PIE
+                */
+
+                document.getElementById("canvaschart").remove();
+
+                viewer.innerHTML = '<canvas id="canvaschart" style="height: 100%; width: 100%;"></canvas>' + viewer.innerHTML;
+
+                
+                
+                chartsData = {
+                    type: "pie",
+                    data: {
+                        labels: labelValues,
+                        datasets: [{
+                            label: document.getElementById("title").value,
+                            data: valueValues,
+                            fill: true,
+                            borderColor: "#000",
+                            backgroundColor: "rgba(79, 167, 255, 0.2)",
+                            borderColor: "rgb(79, 167, 255)",
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        responsive: false
+                    }
+                };
+
+                // Changes embeds text
+                /*
+                embedView.children[1].innerHTML = JSON.stringify(chartsData)
+                */
+                chartCanvas = document.getElementById("canvaschart");
+                
+                chart = new Chart(chartCanvas, chartsData);
+
+                console.log("trying to save...")
+                console.log(chartsData)
+                $.getJSON("/saveToDb/{{url}}/{{editurl}}/?label=" + chartsData.data.datasets[0].label + "&labels=" + chartsData.data.labels + "&values=" + chartsData.data.datasets[0].data,
+                function(data) {
+                    console.log(data)
+                });
+            }
+        }
+
+
+        function remove(index) {
+            const e = document.getElementById("minimize-1");
+            for (i = 0; i < 3; i++) {
+                e.removeChild(document.getElementById("remove" + (index - i)));
+            }
+            
+        }
+
+
+        function addMoreData() {
+            const settings = document.getElementById("settings");
+            const dataDiv = document.querySelector("#settings > div.data");
+            
+            // gets values
+            labelValues = [];
+            valueValues = []
+            for (i = 0; i < labels.length; i++) {
+                labelValues.push(labels[i].value);
+                valueValues.push(values[i].value);
+            }
+            
+            //removes add button and br tag
+            dataDiv.removeChild(dataDiv.lastChild);
+            dataDiv.removeChild(dataDiv.lastChild);
+
+            // adds removed stuff + input
+            dataDiv.innerHTML += '<input type="text" class="label" placeholder="Label" onchange="update()" id="remove' + removeNr + '"><input type="number" class="value" placeholder="Value" onchange="update()" id="remove' + (removeNr + 1) + '"><button onclick="remove(' + (removeNr + 2) + ')" id="remove' + (removeNr + 2) + '">x</button><br><button onclick="addMoreData()">Add more data</button>';
+            removeNr += 3
+
+            // sets valuse to inputs
+            ri = 0
+            for (i = 0; i < labelValues.length; i++) {
+                if (labelValues.length < i) {
+                    break;
+                } else {
+                    labels[i].value = labelValues[i];
+                    values[i].value = valueValues[i];
+                }
+                ri++;
+            }
+
+        }
+
+    </script>
+
+    <style>
+
+        body {
+            display: flex;
+            flex-direction: row;
+        }
+        
+        .viewer {
+            width: 65%;
+            overflow: hidden;
+        }
+
+        .sidebar {
+            width: calc(35% - 5px);
+            overflow: hidden;
+            background-color: #4fa7ff;
+            color: white;
+            font-family: sans-serif;
+            position: relative;
+            left: -5px;
+        }
+
+        .settings {
+            max-height: 50vh;
+            overflow: scroll;
+        }
+
+        input {
+            background-color: transparent;
+            border: none;
+            border-bottom: 2px solid white;
+            border-radius: 0px;
+            height: 20px;
+            outline: none;
+            color: white;
+            font-size: 15px;
+            margin: 10px 0px 0px 5px;
+            transition: .3s all ease-out;
+        }
+
+        input:hover,
+        input:focus {
+            box-shadow: 0px 5px 5px 0px rgba(0, 0, 0, 0.404);
+        }
+
+        input::placeholder {
+            color: white;
+            font-family: sans-serif;
+            font-size: 15px;
+        }
+
+        input::-webkit-outer-spin-button,
+        input::-webkit-inner-spin-button {
+            background-color: #4fa7ff;
+            box-shadow: 0px 5px 5px 0px rgba(0, 0, 0, 0.404);
+        }
+
+        button {
+            border-radius: 0px;
+            border: 2px solid white;
+            outline: none;
+            margin: 10px 0px 0px 5px;
+            background-color: transparent;
+            color: white;
+            font-size: 15px;
+            height: 25px;
+            padding: 0px 10px;
+            transition: .3s ease-out all;
+        }
+
+        button:hover,
+        button:focus {
+            box-shadow: 0px 5px 5px 0px rgba(0, 0, 0, 0.404);
+        }
+
+
+        #canvaschart {
+            width: 100%;
+        }
+
+        .embed {
+            width: 100%;
+            height: auto;
+        }
+
+        a {
+            color: #fff;
+            transition: all 0.3s ease-out;
+            text-decoration: underline !important;
+        }
+
+        a:hover {
+            color: #fff;
+            text-shadow: 0px 5px 5px rgba(0, 0, 0, 0.404);
+        }
+
+        li::before {
+            color: white;
+            content: "\2022";
+        }
+
+        ul {
+            list-style: none;
+        }
+
+    </style>
+
+</body>
+</html>
