@@ -68,6 +68,7 @@
         var chartsData = {};
         var chart = new Chart(chartCanvas, chartsData);
         var removeNr = 3;
+        const colors = {red: "rgb(255, 99, 132)", orange: "rgb(255, 159, 64)", yellow: "rgb(255, 205, 86)", green: "rgb(75, 192, 192)", blue: "rgb(54, 162, 235)", purple: "rgb(153, 102, 255)"}
 
         if ("{{label}}" != "" && "" != "{{labels}}" && "{{values}}" != "") {
             
@@ -157,9 +158,9 @@
                             data: valueValues,
                             fill: true,
                             borderColor: "#000",
-                            backgroundColor: "rgba(79, 167, 255, 0.2)",
-                            borderColor: "rgb(79, 167, 255)",
-                            borderWidth: 1
+                            backgroundColor: ["rgb(255, 99, 132)", "rgb(255, 159, 64)", "rgb(255, 205, 86)", "rgb(75, 192, 192)", "rgb(54, 162, 235)", "rgb(153, 102, 255)"],
+                            borderColor: "#fff",
+                            borderWidth: 2
                         }]
                     },
                     options: {
@@ -190,7 +191,7 @@
             for (i = 0; i < 3; i++) {
                 e.removeChild(document.getElementById("remove" + (index - i)));
             }
-            
+            update();
         }
 
 
@@ -243,13 +244,13 @@
         }
 
         .sidebar {
-            width: calc(35% - 5px);
+            width: calc(35%);
             overflow: hidden;
             background-color: #4fa7ff;
             color: white;
             font-family: sans-serif;
             position: relative;
-            left: -5px;
+            left: -0px;
         }
 
         .settings {

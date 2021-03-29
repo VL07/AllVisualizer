@@ -198,7 +198,7 @@
             for (i = 0; i < 3; i++) {
                 e.removeChild(document.getElementById("remove" + (index - i)));
             }
-            
+            update();
         }
 
 
@@ -251,7 +251,7 @@
         }
 
         .sidebar {
-            width: calc(35% - 5px);
+            width: calc(35%);
             overflow: hidden;
             background-color: #4fa7ff;
             color: white;

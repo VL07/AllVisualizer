@@ -5,7 +5,7 @@ import json
 
 app = Flask(__name__)
 
-visualizers = {"bar": "Bar", "line": "Line", "pie": "Pie"}
+visualizers = {"bar": "Bar", "line": "Line", "pie": "Pie", "doughnut": "Doughnut"}
 
 # URL IMPORTANT
 URL = "http://127.0.0.1:5001"
@@ -98,6 +98,23 @@ def visualizer(thing):
 
             return render_template("visualizer_pie.html", visualizer=thing, url=url, editurl=editurl, surl=url_for('sharedVisualiser', _external=True))
 
+        elif thing == "doughnut":
+            url = randomUniceKey()
+            while url in list(db.keys()):
+                url = randomUniceKey()
+
+            #adds to db
+            db[url] = {"data": {"values": [], "labels": [], "label": ""}, "type": "doughnut"}
+
+            editurl = randomUniceKey()
+
+            db[url + editurl] = {"type": "doughnut", "data": {"values": [], "labels": [], "label": ""}}
+            
+            print(url, editurl)
+
+            return render_template("visualizer_doughnut.html", visualizer=thing, url=url, editurl=editurl, surl=url_for('sharedVisualiser', _external=True))
+
+
         else:
             return render_template("visualizernotfound.html", visualizer=thing, valid=list(visualizers.values()), links=list(visualizers.keys()), len=len(visualizers))
             
@@ -173,6 +190,25 @@ def sharedVisualiser(key=None, keytwo=None):
                         return render_template("visualizer_line.html", visualizer=thing, url=url, editurl=editurl, labels=labels, values=values, label=label, surl=url_for('sharedVisualiser', _external=True), tension=tension)
 
                     elif typeofchart == "pie":
+                        data = db[key + keytwo]["data"]
+
+                        # url sets in html file
+                        url = key
+                        editurl = keytwo
+
+                        thing = typeofchart
+
+                        values = data["values"]
+                        labels = data["labels"]
+                        label = data["label"]
+                        
+                        print(values)
+                        print(labels)
+                        print(label)
+                        return render_template("visualizer_pie.html", visualizer=thing, url=url, editurl=editurl, labels=labels, values=values, label=label, surl=url_for('sharedVisualiser', _external=True))
+
+
+                    elif typeofchart == "doughnut":
                         data = db[key + keytwo]["data"]
 
                         # url sets in html file
@@ -291,7 +327,7 @@ def vislist():
 @app.route("/help")
 @app.route("/help/")
 def help():
-    return "<h1>Under construction</h1>"
+    return render_template("help.html")
 
 @app.route("/embed")
 @app.route("/embed/")
@@ -329,7 +365,7 @@ def source(page=""):
 @app.route("/wiki")
 @app.route("/wiki/")
 def wiki():
-    return redirect("https://github.com/VL07/All_Visualizer/wiki")
+    return render_template("help.html")
 
 
 if __name__ == "__main__":

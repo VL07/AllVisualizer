@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Visualizer</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='page.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">
+</head>
+<body>
+    <style>
+
+        body {
+            font-family: sans-serif;
+            color: black;
+            background-color: #fff;
+            font-size: 20px;
+        }
+
+        h1 {
+            margin-left: 10px;
+        }
+
+        h3 {
+            margin-left: 10px;
+            font-size: 15px;
+        }
+
+
+
+        a {
+            transition: .3s ease-out all;
+            color: #4fa7ff;
+            font-family: sans-serif;
+        }
+
+        a:hover {
+            text-shadow: 0px 5px 5px rgba(0, 0, 0, 0.404);
+        }
+
+        hr {
+            border-top: 5px solid #4fa7ff;
+            border-radius: 5px;
+            background-color: transparent;
+        }
+
+        ol {
+            margin-bottom: 50px;
+        }
+
+    </style>
+
+    {% include "notifications.html" %}
+    {% include "header.html" %}
+
+    <h1>Content</h1>
+    <ul style="margin-bottom: 50px;">
+        <li><h2><a href="#create-a-new-chart">Create a new chart</a></h2></li>
+        <li><h2><a href="#create-a-embed-or-share-a-see-only-version-of-the-chart">Create a embed or share a see only version of the chart</a></h2></li>
+        <li><h2><a href="#share-the-chart">Share the chart</a></h2></li>
+    </ul>
+    <hr>
+    <h1 id="create-a-new-chart">Create a new chart</h1>
+    <ol>
+        <li>Click on the create tab on the header</li>
+        <li>Select what type of chart you want</li>
+    </ol>
+    <hr>
+
+    <h1 id="create-a-embed-or-share-a-see-only-version-of-the-chart">Create a embed or share a see only version of the chart</h1>
+    <ol>
+        <li><a href="#create-a-new-chart">Create a new chart</a> or use one you already have</li>
+        <li>Go to the sidebar</li>
+        <li>Under <b>Link</b> go to <b>Embed/view only</b> and there's the link</li>
+    </ol>
+
+    <hr>
+
+    <h1 id="share-the-chart">Share the chart</h1>
+    <ol>
+        <li><a href="#create-a-new-chart">Create a new chart</a> or use one you already have</li>
+        <li>Go to the sidebar</li>
+        <li>Under <b>Link</b> go to <b>Edit link</b> and there's the link</li>
+    </ol>
+
+    {% include "footer.html" %}
+    
+
+</body>
+</html>
