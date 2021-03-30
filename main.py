@@ -2,6 +2,7 @@ from flask import Flask, redirect, render_template, url_for, request, jsonify
 import random
 import string
 import json
+# from replit import db
 
 app = Flask(__name__)
 
@@ -288,8 +289,8 @@ def saveToDb(key=None, keytwo=None):
     
     print(db[key]["type"])
     print(db[key]["data"])
-    db[key]["data"] = {}
-    db[key + keytwo]["data"] = {}
+    data = {"type": db[key]["type"], "data": {}}
+    data2 = {"type": db[key]["type"], "data": {}}
     print(request.args.get("tension"))
     if db[key]["type"] == "line":
         tension = request.args.get("tension")
@@ -297,23 +298,26 @@ def saveToDb(key=None, keytwo=None):
         if tension == "" or tension == None:
             print("error saving tension ")
             return "missing value tension"
-        db[key]["data"]["tension"] = tension
-        db[key + keytwo]["data"]["tension"] = tension
+        data["data"]["tension"] = tension
+        data2["data"]["tension"] = tension
+
+    print(labels)
+    data["data"]["labels"] = labels
+    print(data["data"]["labels"])
+    print(data["data"])
+    data["data"]["values"] = values
+    data["data"]["label"] = label
 
     
-    db[key]["data"]["labels"] = labels
-    db[key]["data"]["values"] = values
-    db[key]["data"]["label"] = label
+    data2["data"]["labels"] = labels
+    data2["data"]["values"] = values
+    data2["data"]["label"] = label
 
-    
-    db[key + keytwo]["data"]["labels"] = labels
-    db[key + keytwo]["data"]["values"] = values
-    db[key + keytwo]["data"]["label"] = label
-
-    
+    db[key] = data
+    db[key + keytwo] = data2
 
     print("saved to db")
-    print(db)
+    print(type(db[key]))
 
 
     return "success"
@@ -369,5 +373,5 @@ def wiki():
 
 
 if __name__ == "__main__":
-    app.run(host="127.0.0.1", port="5001")
+    app.run(host="0.0.0.0", port="8080")
 
